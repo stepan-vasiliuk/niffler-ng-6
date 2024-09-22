@@ -5,9 +5,7 @@ import guru.qa.niffler.model.CurrencyValues;
 import guru.qa.niffler.model.SpendJson;
 import retrofit2.Call;
 import retrofit2.http.*;
-import wiremock.com.ethlo.time.DateTime;
 
-import java.util.Date;
 import java.util.List;
 
 public interface SpendApi {
