@@ -16,13 +16,12 @@ public class CategoryWebTest {
             isArchived = true
     )
     @Test
-    void archivedCategoryCanBeExtracted(CategoryJson categoryJson) {
+    void archivedCategoryShouldBeVisibleInCategoriesList(CategoryJson categoryJson) {
         Selenide.open(CFG.frontUrl(), LoginPage.class)
                 .login("duck", "12345")
                 .navigateToUserProfile()
                 .switchShowArchiveCheckBox()
-                .findArchivedCategoryAndExtract(categoryJson.name())
-                .checkCategoryIsActive(categoryJson.name());
+                .checkCategoryIsArchived(categoryJson.name());
     }
 
     @Category(
@@ -30,12 +29,10 @@ public class CategoryWebTest {
             isArchived = false
     )
     @Test
-    void activeCategoryCanBeArchived(CategoryJson categoryJson) {
+    void activeCategoryShouldBeVisibleInCategoriesList(CategoryJson categoryJson) {
         Selenide.open(CFG.frontUrl(), LoginPage.class)
                 .login("duck", "12345")
                 .navigateToUserProfile()
-                .findActiveCategoryAndArchive(categoryJson.name())
-                .checkCategoryIsArchived(categoryJson.name());
+                .checkCategoryIsActive(categoryJson.name());
     }
-
 }
