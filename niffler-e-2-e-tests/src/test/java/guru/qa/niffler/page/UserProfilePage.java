@@ -42,10 +42,10 @@ public class UserProfilePage {
     }
 
     public SelenideElement checkCategoryIsArchived(String category) {
-        return archivedCategoriesList.find(Condition.text(category));
+        return archivedCategoriesList.find(Condition.text(category)).shouldBe(Condition.visible);
     }
 
     public SelenideElement checkCategoryIsActive(String category) {
-        return categoriesList.find(Condition.text(category));
+        return categoriesList.find(Condition.text(category)).shouldBe(Condition.visible);
     }
 }
