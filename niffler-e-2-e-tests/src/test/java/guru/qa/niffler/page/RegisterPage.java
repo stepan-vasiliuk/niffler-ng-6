@@ -1,5 +1,6 @@
 package guru.qa.niffler.page;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -13,17 +14,17 @@ public class RegisterPage {
     private final SelenideElement formErrorTextSpan = $(".form__error");
 
     public RegisterPage setUserName(String userNane) {
-        userNameInput.sendKeys(userNane);
+        userNameInput.setValue(userNane);
         return this;
     }
 
     public RegisterPage setPassword(String password) {
-        passwordInput.sendKeys(password);
+        passwordInput.setValue(password);
         return this;
     }
 
     public RegisterPage submitPassword(String password) {
-        passwordSubmitInput.sendKeys(password);
+        passwordSubmitInput.setValue(password);
         return this;
     }
 
@@ -37,8 +38,8 @@ public class RegisterPage {
         return this;
     }
 
-    public String getFormErrorMessage() {
-        return formErrorTextSpan.getOwnText();
+    public void checkErrorMessage(String errorText) {
+        formErrorTextSpan.shouldHave(Condition.text(errorText));
     }
 
 }

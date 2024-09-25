@@ -15,22 +15,21 @@ public class CategoryWebTest {
 
     @Category(
             username = "duck",
-            isArchived = true
-    )
+            title = "",
+            isArchived = true)
     @Test
     void archivedCategoryShouldBeVisibleInCategoriesList(CategoryJson categoryJson) {
-        SelenideElement archived =  Selenide.open(CFG.frontUrl(), LoginPage.class)
+        SelenideElement archived = Selenide.open(CFG.frontUrl(), LoginPage.class)
                 .login("duck", "12345")
                 .navigateToUserProfile()
                 .switchShowArchiveCheckBox()
                 .checkCategoryIsArchived(categoryJson.name());
-        Assertions.assertNotNull(archived);
     }
 
     @Category(
             username = "duck",
-            isArchived = false
-    )
+            title = "",
+            isArchived = false)
     @Test
     void activeCategoryShouldBeVisibleInCategoriesList(CategoryJson categoryJson) {
         Selenide.open(CFG.frontUrl(), LoginPage.class)

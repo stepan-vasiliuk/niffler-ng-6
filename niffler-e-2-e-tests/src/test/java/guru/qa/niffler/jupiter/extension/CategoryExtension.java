@@ -19,9 +19,9 @@ public class CategoryExtension implements BeforeEachCallback, ParameterResolver,
                 .ifPresent(anno -> {
                     CategoryJson category = new CategoryJson(
                             null,
-                            faker.name().name(),
+                            anno.title().isEmpty() ? faker.name().name() : anno.title(),
                             anno.username(),
-                            anno.isArchived()
+                            false
                     );
                     CategoryJson created = spendApiClient.addCategory(category);
                     if (anno.isArchived()) {

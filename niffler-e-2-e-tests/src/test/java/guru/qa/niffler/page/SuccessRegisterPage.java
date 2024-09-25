@@ -1,5 +1,6 @@
 package guru.qa.niffler.page;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.Selenide.$;
@@ -10,11 +11,10 @@ public class SuccessRegisterPage {
 
     public LoginPage returnToLogin() {
         successRegisterButton.click();
-
         return new LoginPage();
     }
 
-    public String getCongratsMessageText() {
-        return congratsMessage.getOwnText();
+    public void checkSuccessMessageText(String expectedText) {
+        congratsMessage.shouldHave(Condition.partialText(expectedText));
     }
 }

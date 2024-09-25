@@ -15,31 +15,24 @@ public class RegisterWebTest {
     void newUserSuccessRegisterTest() {
         String userName = faker.name().firstName();
 
-        String successMessage = Selenide.open(CFG.frontUrl(), LoginPage.class)
+        Selenide.open(CFG.frontUrl(), LoginPage.class)
                 .pressRegisterButton()
                 .setUserName(userName)
                 .setPassword("qqww11")
                 .submitPassword("qqww11")
                 .submitRegisterSuccess()
-                .getCongratsMessageText();
-
-        Assertions.assertTrue(successMessage.startsWith("Congratulations!"));
+                .checkSuccessMessageText("Congratulations");
     }
 
     @Test
     void negativePasswordAreNotEqualsTest() {
-//        String userName = faker.name().firstName();
-//        String expectedErrorMessage = String.format("Username `%s` already exists", userName);
-
-        String actualErrorMessage = Selenide.open(CFG.frontUrl(), LoginPage.class)
+        Selenide.open(CFG.frontUrl(), LoginPage.class)
                 .pressRegisterButton()
                 .setUserName(faker.name().username())
                 .setPassword("newPassw")
                 .submitPassword("differentPsw")
                 .negativeSubmitRegister()
-                .getFormErrorMessage();
-
-        Assertions.assertEquals("Passwords should be equal", actualErrorMessage);
+                .checkErrorMessage("Passwords should be equal");
     }
 
     @Test
@@ -47,14 +40,12 @@ public class RegisterWebTest {
         String userName = "svuser";
         String expectedErrorMessage = String.format("Username `%s` already exists", userName);
 
-        String actualErrorMessage = Selenide.open(CFG.frontUrl(), LoginPage.class)
+        Selenide.open(CFG.frontUrl(), LoginPage.class)
                 .pressRegisterButton()
                 .setUserName(userName)
                 .setPassword("qqww11")
                 .submitPassword("qqww11")
                 .negativeSubmitRegister()
-                .getFormErrorMessage();
-
-        Assertions.assertEquals(expectedErrorMessage, actualErrorMessage);
+                .checkErrorMessage(expectedErrorMessage);
     }
 }
