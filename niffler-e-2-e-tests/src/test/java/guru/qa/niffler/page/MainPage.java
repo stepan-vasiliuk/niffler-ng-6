@@ -1,6 +1,5 @@
 package guru.qa.niffler.page;
 
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 
@@ -20,9 +19,8 @@ public class MainPage {
         return new EditSpendingPage();
     }
 
-    public MainPage checkMainPageLoaded() {
+    public void checkMainPageLoaded() {
         mainMenuButton.shouldBe(visible);
-        return this;
     }
 
     public void checkThatTableContainsSpending(String spendingDescription) {

@@ -2,8 +2,6 @@ package guru.qa.niffler.api;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import guru.qa.niffler.config.Config;
-import lombok.SneakyThrows;
-import org.hibernate.AssertionFailure;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
@@ -28,7 +26,6 @@ public class GhApiClient {
     public String issueState(String issueNumber) {
         String token = System.getenv(GH_TOKEN_ENV);
         final Response<JsonNode> response;
-        final JsonNode responseBody;
         try {
             response = ghApi.issue(
                     "Bearer " + token,

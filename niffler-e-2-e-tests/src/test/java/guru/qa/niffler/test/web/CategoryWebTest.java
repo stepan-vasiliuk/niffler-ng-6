@@ -7,7 +7,6 @@ import guru.qa.niffler.jupiter.annotation.Category;
 import guru.qa.niffler.jupiter.annotation.DisabledByIssue;
 import guru.qa.niffler.model.CategoryJson;
 import guru.qa.niffler.page.LoginPage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 
@@ -21,7 +20,7 @@ public class CategoryWebTest {
             isArchived = true)
     @Test
     void archivedCategoryShouldBeVisibleInCategoriesList(CategoryJson categoryJson) {
-        SelenideElement archived = Selenide.open(CFG.frontUrl(), LoginPage.class)
+        Selenide.open(CFG.frontUrl(), LoginPage.class)
                 .login("duck", "12345")
                 .navigateToUserProfile()
                 .switchShowArchiveCheckBox()

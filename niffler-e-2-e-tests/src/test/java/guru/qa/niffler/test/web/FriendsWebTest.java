@@ -13,11 +13,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import static guru.qa.niffler.jupiter.extension.UsersQueueExtension.UserType.Type.*;
 
 @ExtendWith(BrowserExtension.class)
-@ExtendWith(UsersQueueExtension.class)
 public class FriendsWebTest {
     private static final Config CFG = Config.getInstance();
 
     @Test
+    @ExtendWith(UsersQueueExtension.class)
     void friendIncomeRequestTest(@UserType(WITH_INCOME_REQUEST) StaticUser user) {
         Selenide.open(CFG.frontUrl(), LoginPage.class)
                 .login(user.userName(), user.password())
@@ -27,6 +27,7 @@ public class FriendsWebTest {
     }
 
     @Test
+    @ExtendWith(UsersQueueExtension.class)
     void friendVisibleInFriendsListTest(@UserType(WITH_FRIEND) StaticUser user) {
         Selenide.open(CFG.frontUrl(), LoginPage.class)
                 .login(user.userName(), user.password())
@@ -36,6 +37,7 @@ public class FriendsWebTest {
     }
 
     @Test
+    @ExtendWith(UsersQueueExtension.class)
     void emptyFriendsListTest(@UserType StaticUser user) {
         Selenide.open(CFG.frontUrl(), LoginPage.class)
                 .login(user.userName(), user.password())
@@ -45,6 +47,7 @@ public class FriendsWebTest {
     }
 
     @Test
+    @ExtendWith(UsersQueueExtension.class)
     void outcomeRequestUserIsVisibleInAllPeopleListTest(
             @UserType(WITH_OUTCOME_REQUEST) StaticUser user
     ) {
