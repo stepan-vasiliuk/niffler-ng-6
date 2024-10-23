@@ -13,6 +13,7 @@ public class MainPage {
     private final ElementsCollection tableRows = $("#spendings tbody").$$("tr");
     private final SelenideElement mainMenuButton = $x("//button[@aria-label='Menu']");
     private final SelenideElement profileButton = $x("//a[contains(text(), 'Profile')]");
+    private final SelenideElement friendsButton = $x("//a[text()='Friends']");
 
     public EditSpendingPage editSpending(String spendingDescription) {
         tableRows.find(text(spendingDescription)).$$("td").get(5).click();
@@ -32,6 +33,12 @@ public class MainPage {
         mainMenuButton.click();
         profileButton.click();
         return new UserProfilePage();
+    }
+
+    public FriendsPage navigateToFriendsPage() {
+        mainMenuButton.shouldBe(visible).click();
+        friendsButton.shouldBe(visible).click();
+        return new FriendsPage();
     }
 
 }
