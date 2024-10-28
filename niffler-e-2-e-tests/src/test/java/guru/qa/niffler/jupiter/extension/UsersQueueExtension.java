@@ -30,8 +30,8 @@ public class UsersQueueExtension implements
 
     private static final Queue<StaticUser> EMPTY_USERS = new ConcurrentLinkedQueue<>();
     private static final Queue<StaticUser> WITH_FRIEND_USERS = new ConcurrentLinkedQueue<>();
-    public static final Queue<StaticUser> WITH_INCOME_REQUEST_USERS = new ConcurrentLinkedQueue<>();
-    public static final Queue<StaticUser> WITH_OUTCOME_REQUEST_USERS = new ConcurrentLinkedQueue<>();
+    private static final Queue<StaticUser> WITH_INCOME_REQUEST_USERS = new ConcurrentLinkedQueue<>();
+    private static final Queue<StaticUser> WITH_OUTCOME_REQUEST_USERS = new ConcurrentLinkedQueue<>();
 
     static {
         EMPTY_USERS.add(new StaticUser("empty_user", "qqww11", null, null, null));
@@ -46,7 +46,10 @@ public class UsersQueueExtension implements
         Type value() default Type.EMPTY;
 
         enum Type {
-            EMPTY, WITH_FRIEND, WITH_INCOME_REQUEST, WITH_OUTCOME_REQUEST
+            EMPTY,
+            WITH_FRIEND,
+            WITH_INCOME_REQUEST,
+            WITH_OUTCOME_REQUEST
         }
     }
 
@@ -62,12 +65,7 @@ public class UsersQueueExtension implements
             StopWatch stopWatch = StopWatch.createStarted();
 
             while (user.isEmpty() && stopWatch.getTime(TimeUnit.SECONDS) < 15) {
-                user = switch (userType.value()) {
-                    case EMPTY -> Optional.ofNullable(EMPTY_USERS.poll());
-                    case WITH_FRIEND -> Optional.ofNullable(WITH_FRIEND_USERS.poll());
-                    case WITH_INCOME_REQUEST -> Optional.ofNullable(WITH_INCOME_REQUEST_USERS.poll());
-                    case WITH_OUTCOME_REQUEST -> Optional.ofNullable(WITH_OUTCOME_REQUEST_USERS.poll());
-                };
+                user = Optional.ofNullable(getUserFromQueueByUserType(userType.value()).poll());
             }
             user.ifPresentOrElse(
                     u -> {
@@ -88,13 +86,7 @@ public class UsersQueueExtension implements
     public void afterEach(ExtensionContext context) throws Exception {
         Map<UserType, StaticUser> map = context.getStore(NAMESPACE).get(context.getUniqueId(), Map.class);
         for (Map.Entry<UserType, StaticUser> e : map.entrySet()) {
-            System.out.println("Ключ: " + e.getKey() + ", Значение: " + e.getValue());
-            switch (e.getKey().value()) {
-                case EMPTY -> EMPTY_USERS.add(e.getValue());
-                case WITH_FRIEND -> WITH_FRIEND_USERS.add(e.getValue());
-                case WITH_INCOME_REQUEST -> WITH_INCOME_REQUEST_USERS.add(e.getValue());
-                case WITH_OUTCOME_REQUEST -> WITH_OUTCOME_REQUEST_USERS.add(e.getValue());
-            }
+            getUserFromQueueByUserType(e.getKey().value()).add(e.getValue());
         }
     }
 
@@ -110,5 +102,14 @@ public class UsersQueueExtension implements
                 .getStore(NAMESPACE)
                 .get(extensionContext.getUniqueId(), Map.class)
                 .get(AnnotationSupport.findAnnotation(parameterContext.getParameter(), UserType.class).get());
+    }
+
+    private Queue<StaticUser> getUserFromQueueByUserType(UserType.Type userType) {
+        return switch (userType) {
+            case EMPTY -> EMPTY_USERS;
+            case WITH_FRIEND -> WITH_FRIEND_USERS;
+            case WITH_INCOME_REQUEST -> WITH_INCOME_REQUEST_USERS;
+            case WITH_OUTCOME_REQUEST -> WITH_OUTCOME_REQUEST_USERS;
+        };
     }
 }

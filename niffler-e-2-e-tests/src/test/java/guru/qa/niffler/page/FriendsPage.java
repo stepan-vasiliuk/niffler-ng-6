@@ -18,13 +18,13 @@ public class FriendsPage {
 
 
     public FriendsPage navigateToFriendsTab() {
-        friendsTab.shouldBe(visible).click();
+        friendsTab.click();
         friendsTab.shouldHave(Condition.attribute("aria-selected", String.valueOf(true)));
         return this;
     }
 
     public FriendsPage navigateToAllPeopleTab() {
-        allPeopleTab.shouldBe(visible).click();
+        allPeopleTab.click();
         allPeopleTab.shouldHave(attribute("aria-selected", String.valueOf(true)));
         return this;
     }
